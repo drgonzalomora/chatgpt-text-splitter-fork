@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Text Splitter</title>
+    <link rel="stylesheet" href="chatgpt_text_splitter.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>ChatGPT Text Splitter</h1>
+        <textarea id="text-input" placeholder="Paste your text here"></textarea>
+        <button id="segment-text">Segment Text</button>
+        <div id="segments-container"></div>
+    </div>
+    <script>
+        function updateSegmentColors() {
+            $('.segment').each(function() {
+                $(this).removeClass('green yellow blue');
+                const isPasted = $(this).data('pasted');
+                const isSelected = $(this).data('selected');
+
+                if (isPasted) {
+                    $(this).addClass('green');
+                } else if (isSelected) {
+                    $(this).addClass('yellow');
+                } else {
+                    $(this).addClass('blue');
+                }
+            });
+        }
+
+        function segmentText() {
+            const text = $('#text-input').val();
+            const words = text.split(/\s+/);
+            const segments = [];
+
+            for (let i = 0; i < words.length; i += 500) {
+                segments.push(words.slice(i, i + 500).join(' '));
+            }
+
+            $('#segments-container').empty();
+            segments.forEach((segment, index) => {
+                const segmentBtn = $('<button>').addClass('segment').text(`Segment ${index + 1}`);
+                segmentBtn.data('text', segment);
+                segmentBtn.data('pasted', false);
+                segmentBtn.data('selected', false);
+                segmentBtn.click(function() {
+                    navigator.clipboard.writeText(segmentBtn.data('text'));
+                    $('.segment').data('selected', false);
+                    segmentBtn.data('selected', true);
+                    segmentBtn.data('pasted', true);
+                    updateSegmentColors();
+                });
+                $('#segments-container').append(segmentBtn);
+            });
+
+            updateSegmentColors();
+        }
+
+        $('#segment-text').click(segmentText);
+    </script>
+</body>
+</html>
