@@ -1,6 +1,7 @@
 # chatgpt-text-splitter
 
 **SPANISH**
+
 Este código es una página web que permite segmentar texto de manera fácil y rápida. Al abrir la página, el usuario encontrará un campo de texto donde puede pegar su texto y un botón para segmentarlo.
 
 Cuando el usuario hace clic en el botón "Segmentar Texto", el programa divide automáticamente el texto en segmentos de 500 palabras y los muestra en una lista de botones numerados en el área debajo del campo de texto. Al hacer clic en cualquiera de los botones de segmentos, el texto correspondiente se copia al portapapeles del usuario para su uso posterior.
